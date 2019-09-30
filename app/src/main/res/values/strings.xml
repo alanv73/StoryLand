@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">StoryLand</string>
+    <string name="txt_landscape">Landscape Orientation</string>
+    <string name="txt_portrait">Portrait Orientation</string>
+    <string name="surveyQuestion">Please select your favorite ride</string>
+    <string name="radioButton1">Roar-O-Saurus</string>
+    <string name="RadioButton2">Dr. Geyser\'s Remarkable Raft Ride</string>
+    <string name="RadioButton3">Bamboo Chutes</string>
+    <string name="radioButton4">Crazy Barn</string>
+    <string name="surveyButton">Thanks!</string>
+    <string name="rideButtonText">Home</string>
+    <string name="buttonHome">Back</string>
+    <string name="tvAbout">Story Land is a theme park located in Glen, New Hampshire,
+        which opened in 1954. The park is meant to appeal to children up to the pre-teen ages.
+        \n\nStory Land is the best children\'s theme park in New Hampshire, offering rides and
+        entertainment to thousands of families for over 60 years. Visit us today!
+        \n\n <a href="https://www.storylandnh.com/">Visit our HomePage!</a></string>
+    <string name="ratingButton">Ride Survey</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
