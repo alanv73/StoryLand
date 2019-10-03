@@ -1,9 +1,9 @@
 package edu.southhills.storyland;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,27 +19,58 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        LogoFragment lf = new LogoFragment();
-        ft.add(R.id.mainActivityContainer, lf);
+        String myRide = "";
+        String username;
 
+        // check for username passed from login activity
+        if(getIntent().hasExtra("username")){
+            username = getIntent().getStringExtra("username");
+            // save it as an "app-global" pref
+            saveUserToPref(username);
+        } else {
+            // if no username was passed, get the last one from the prefs
+            username = getUserFromPref();
+        }
+
+        // display the current user
+        String userText = String.format("Current User: %s", username);
+
+        TextView tvUser = findViewById(R.id.tvUser);
+        tvUser.setText(userText);
+
+        // fragment containing the logo
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.mainActivityContainer, new LogoFragment()).commit();
+
+        // get data from the intent
         if (getIntent().hasExtra("favRide")) {
             // returning from the 'ride survey' activity
-            String message = readFavRide();
-            makeToast(String.format("We're glad you liked %s", message));
+            myRide = readRatingFromIntent();
 
-            message = String.format("Favorite Ride:\n%s", message);
-            MessageFragment mf = new MessageFragment(message);
-            ft.add(R.id.mainActivityContainer, mf);
-        } else if (getIntent().hasExtra("aboutReturn")) {
-            // returning from the 'about' activity
+            // save it to a "user" pref
+            if(!username.equalsIgnoreCase("")) {
+                saveRatingToPref(username, myRide);
+            }
+
+            // display it in a toast
+            makeToast(String.format("We're glad you liked\n%s", myRide));
+        } else if (getIntent().hasExtra("activityReturn")) {
+            // returning from the 'about' activity or the 'login' activity
         } else {
             // not returning from an activity
             checkOsVersion();
         }
 
-        ft.commit();
+        // if you didn't get a rating from the intent
+        // and you are logged in, load one from the "user" pref
+        if(myRide.equalsIgnoreCase("") &&
+                !username.equalsIgnoreCase("")){
+            myRide = getRatingFromPref(username);
+        }
+
+        // send the rating to a fragment
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.mainActivityContainer, new MessageFragment(myRide)).commit();
         getOrientation();
     }
 
@@ -89,15 +120,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // reads content of 'favRide' Extra and displays it in a toast and a text view
-    public String readFavRide(){
+    public String readRatingFromIntent(){
         Intent currentIntent = getIntent();
-        String favRide = currentIntent.getStringExtra("favRide");
-
-        return favRide;
+        return currentIntent.getStringExtra("favRide");
     }
 
+    // displays a toast
     public void makeToast(String toastText){
         Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
     }
 
+    // shows the login activity
+    public void showLogin(View v) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    // gets current user from "app-global" prefs
+    public String getUserFromPref(){
+        SharedPreferences appPrefs = getSharedPreferences ("appPrefs", MODE_PRIVATE);
+        return appPrefs.getString("username", "");
+    }
+
+    // save current user to "app-global" prefs
+    public void saveUserToPref(String username){
+        SharedPreferences appPrefs = getSharedPreferences ("appPrefs", MODE_PRIVATE);
+        appPrefs.edit().putString("username", username).commit();
+    }
+
+    // get rating from "user" pref by user name
+    public String getRatingFromPref(String user){
+        SharedPreferences prefs = getSharedPreferences (user, MODE_PRIVATE);
+        return prefs.getString("favRide", "");
+    }
+
+    // save rating to "user" pref
+    public void saveRatingToPref(String user, String rating){
+        SharedPreferences prefs = getSharedPreferences (user, MODE_PRIVATE);
+        prefs.edit().putString("favRide", rating).commit();
+    }
 }
+

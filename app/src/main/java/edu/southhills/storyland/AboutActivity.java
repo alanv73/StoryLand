@@ -15,6 +15,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        // logo and home button fragments
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         LogoFragment lf = new LogoFragment();
@@ -23,6 +24,8 @@ public class AboutActivity extends AppCompatActivity {
         ft.add(R.id.aboutContainer, bf);
         ft.commit();
 
+        // the TextView contains a hyperlink
+        // this makes it clickable
         TextView tvAbout = findViewById(R.id.tvAbout);
         tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }

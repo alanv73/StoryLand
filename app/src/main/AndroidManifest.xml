@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".ErrorActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".ErrorActivity" />
         <activity android:name=".SurveyActivity" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:configChanges="keyboard|orientation|locale|fontScale|screenLayout|screenSize|uiMode|navigation|touchscreen|keyboardHidden|layoutDirection|smallestScreenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

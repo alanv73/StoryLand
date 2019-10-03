@@ -24,8 +24,13 @@ public class MessageFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_message, container, false);
 
         TextView tvMessage = v.findViewById(R.id.tvfMessage);
-        tvMessage.setText(myString);
 
+        // put data into TextView that was passed in from the constructor
+        if(!myString.equalsIgnoreCase("")) {
+            myString = "Favorite Ride:\n" + myString;
+        }
+
+        tvMessage.setText(myString);
 
         return v;
     }
