@@ -1,7 +1,6 @@
 package edu.southhills.storyland;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String myRide = "";
-        String username;
+        String username = "";
 
         // check for username passed from login activity
         if(getIntent().hasExtra("username")){

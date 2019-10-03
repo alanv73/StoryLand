@@ -2,6 +2,7 @@ package edu.southhills.storyland;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
@@ -15,10 +16,10 @@ public class LoginActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.loginActivityContainer, new LogoFragment()).commit();
 
-        // read the user name from the EditText on the Login activity
-        TextView etUser = findViewById(R.id.etUser);
+        // get reference the EditText containing the user name
+        EditText etUser = findViewById(R.id.etUser);
 
-        // Home button fragment, passing the username during instantiation
+        // Home button fragment, passing the username EditText during instantiation
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.loginActivityContainer, new ButtonFragment(etUser)).commit();
 
