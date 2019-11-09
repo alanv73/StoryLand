@@ -6,7 +6,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.ChangeBounds;
+import android.transition.Scene;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
+
+        ViewGroup sceneContainer = findViewById(R.id.main_root);
+        Scene newScene = Scene.getSceneForLayout(sceneContainer, R.layout.main_b, this);
+
+        Transition bounce = new ChangeBounds();
+        bounce.setDuration(1500);
+        bounce.setInterpolator(new BounceInterpolator());
+
+        TransitionManager.go(newScene, bounce);
 
         String myRide = "";
         String username = "";
@@ -158,6 +174,27 @@ public class MainActivity extends AppCompatActivity {
     public void saveRatingToPref(String user, String rating){
         SharedPreferences prefs = getSharedPreferences (user, MODE_PRIVATE);
         prefs.edit().putString("favRide", rating).commit();
+    }
+
+    public void scene_change(View v){
+        ViewGroup sceneContainer = findViewById(R.id.main_root);
+        Scene newScene = Scene.getSceneForLayout(sceneContainer, R.layout.main_a, this);
+
+        Transition bounce = new ChangeBounds();
+        bounce.setDuration(500);
+        bounce.setInterpolator(new AnticipateInterpolator());
+
+        TextView tvOrientation = findViewById(R.id.tvOrientation);
+        TextView tvUser = findViewById(R.id.tvUser);
+        String orientation = tvOrientation.getText().toString();
+        String user = tvUser.getText().toString();
+
+        TransitionManager.go(newScene, bounce);
+
+        tvOrientation = findViewById(R.id.tvOrientation);
+        tvUser = findViewById(R.id.tvUser);
+        tvOrientation.setText(orientation);
+        tvUser.setText(user);
     }
 
 }

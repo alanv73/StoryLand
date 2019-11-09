@@ -5,6 +5,12 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <permission android:name="edu.southhills.storyland.ShareActivity"
+        android:label="@string/permlab_shareStoryLand"
+        android:description="@string/permdesc_shareStoryLand"
+        android:permissionGroup="android.permission-group.CONTACTS"
+        android:protectionLevel="dangerous" />
 
     <application
         android:allowBackup="true"
