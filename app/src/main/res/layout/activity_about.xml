@@ -39,4 +39,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAbout"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/btnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="shareButton"
+        android:text="Tell a Friend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintStart_toEndOf="@+id/btnMap"
+        app:layout_constraintTop_toBottomOf="@+id/tvAbout"
+        app:layout_constraintVertical_bias="0.028" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

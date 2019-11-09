@@ -45,7 +45,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     // method to launch google maps
-    public void gotoMaps(String address){
+    private void gotoMaps(String address){
         Uri location = Uri.parse("geo:?q=" + address);
 
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
@@ -58,6 +58,11 @@ public class AboutActivity extends AppCompatActivity {
             Toast.makeText(this, "Map Client not Found", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void shareButton(View v){
+        Intent shareIntent = new Intent(this, ShareActivity.class);
+        startActivity(shareIntent);
     }
 
 }
