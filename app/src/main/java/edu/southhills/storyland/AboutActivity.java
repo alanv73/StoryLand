@@ -3,9 +3,16 @@ package edu.southhills.storyland;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -31,5 +38,26 @@ public class AboutActivity extends AppCompatActivity {
         tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    public void mapButton(View v){
+        String storyLand = "StoryLand 850 NH Route 16, Glen, NH 03838";
+
+        gotoMaps(storyLand);
+    }
+
+    // method to launch google maps
+    public void gotoMaps(String address){
+        Uri location = Uri.parse("geo:?q=" + address);
+
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+
+        Intent chooser = Intent.createChooser(mapIntent, "Open Map");
+
+        try{
+            startActivity(chooser);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "Map Client not Found", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 }
