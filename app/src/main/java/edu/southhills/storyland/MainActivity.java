@@ -159,5 +159,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences (user, MODE_PRIVATE);
         prefs.edit().putString("favRide", rating).commit();
     }
+
 }
 

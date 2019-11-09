@@ -1,9 +1,11 @@
 package edu.southhills.storyland;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,12 +20,24 @@ public class LoginActivity extends AppCompatActivity {
                 .add(R.id.loginActivityContainer, new LogoFragment()).commit();
 
         // get reference the EditText containing the user name
-        EditText etUser = findViewById(R.id.etUser);
+        final EditText etUser = findViewById(R.id.etUser);
 
         // Home button fragment, passing the username EditText during instantiation
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.loginActivityContainer, new ButtonFragment(etUser)).commit();
 
+        etUser.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_UP &&
+                        keyCode == KeyEvent.KEYCODE_ENTER){
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("username", etUser.getText().toString());
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
 
     }
 }

@@ -3,6 +3,7 @@ package edu.southhills.storyland;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,6 +37,11 @@ public class SurveyActivity extends AppCompatActivity {
 
                 // pass selected RadioButton into existing Button Fragment
                 bf.setArguments(rbFavRide);
+
+                Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
+                String favRide = rbFavRide.getText().toString();
+                intent.putExtra("favRide", favRide);
+                startActivity(intent);
             }
         });
     }
