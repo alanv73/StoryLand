@@ -13,12 +13,13 @@ import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateInterpolator;
-import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private Boolean firstRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,8 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
 
-        ViewGroup sceneContainer = findViewById(R.id.main_root);
-        Scene newScene = Scene.getSceneForLayout(sceneContainer, R.layout.main_b, this);
-
-        Transition bounce = new ChangeBounds();
-        bounce.setDuration(1500);
-        bounce.setInterpolator(new BounceInterpolator());
-
-        TransitionManager.go(newScene, bounce);
+        int newLayout = getLayoutFromPref();
+        scene_change(newLayout);
 
         String myRide = "";
         String username = "";
@@ -87,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         // send the rating to a fragment
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainActivityContainer, new MessageFragment(myRide)).commit();
+        getOrientation();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
         getOrientation();
     }
 
@@ -152,10 +153,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public int getLayoutFromPref(){
+        SharedPreferences appPrefs = getSharedPreferences ("appPrefs", MODE_PRIVATE);
+        return appPrefs.getInt("layout", R.layout.main_b);
+    }
+
     // gets current user from "app-global" prefs
     public String getUserFromPref(){
         SharedPreferences appPrefs = getSharedPreferences ("appPrefs", MODE_PRIVATE);
         return appPrefs.getString("username", "");
+    }
+
+    public void saveLayoutToPref(int layout){
+        SharedPreferences appPrefs = getSharedPreferences ("appPrefs", MODE_PRIVATE);
+        appPrefs.edit().putInt("layout", layout).commit();
     }
 
     // save current user to "app-global" prefs
@@ -176,25 +187,46 @@ public class MainActivity extends AppCompatActivity {
         prefs.edit().putString("favRide", rating).commit();
     }
 
-    public void scene_change(View v){
+    public void imageClick(View v){
+        int newLayout = R.layout.main_a;
+        if(getLayoutFromPref() == R.layout.main_a) {
+            newLayout = R.layout.main_b;
+        }
+
+        scene_change(newLayout);
+        saveLayoutToPref(newLayout);
+    }
+
+    public void scene_change(int layout){
         ViewGroup sceneContainer = findViewById(R.id.main_root);
-        Scene newScene = Scene.getSceneForLayout(sceneContainer, R.layout.main_a, this);
+
+        Scene newScene = Scene.getSceneForLayout(sceneContainer, layout, this);
 
         Transition bounce = new ChangeBounds();
         bounce.setDuration(500);
         bounce.setInterpolator(new AnticipateInterpolator());
 
-        TextView tvOrientation = findViewById(R.id.tvOrientation);
-        TextView tvUser = findViewById(R.id.tvUser);
-        String orientation = tvOrientation.getText().toString();
-        String user = tvUser.getText().toString();
+        TextView tvOrientation;
+        TextView tvUser;
+        String orientation = "";
+        String user = "";
+
+        if(!firstRun) {
+            tvOrientation = findViewById(R.id.tvOrientation);
+            tvUser = findViewById(R.id.tvUser);
+            orientation = tvOrientation.getText().toString();
+            user = tvUser.getText().toString();
+        }
 
         TransitionManager.go(newScene, bounce);
 
-        tvOrientation = findViewById(R.id.tvOrientation);
-        tvUser = findViewById(R.id.tvUser);
-        tvOrientation.setText(orientation);
-        tvUser.setText(user);
+        if(!firstRun) {
+            tvOrientation = findViewById(R.id.tvOrientation);
+            tvUser = findViewById(R.id.tvUser);
+            tvOrientation.setText(orientation);
+            tvUser.setText(user);
+        }
+        firstRun = false;
     }
 
 }
