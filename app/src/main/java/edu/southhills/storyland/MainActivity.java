@@ -88,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         getOrientation();
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            getSupportActionBar().hide();
+        } else {
+            getSupportActionBar().show();
+        }
     }
 
     // start About activity
