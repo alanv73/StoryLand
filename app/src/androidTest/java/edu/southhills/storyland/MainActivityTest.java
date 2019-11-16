@@ -1,17 +1,13 @@
 package edu.southhills.storyland;
 
 import android.content.res.Configuration;
-import android.util.Log;
 import android.widget.TextView;
-
 import androidx.test.rule.ActivityTestRule;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
 
 public class MainActivityTest {
 
