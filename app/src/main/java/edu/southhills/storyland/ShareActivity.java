@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -41,11 +42,6 @@ public class ShareActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_share);
 
-        Button btnTo = findViewById(R.id.btnTo);
-        EditText etMessage = findViewById(R.id.etMessage);
-        etMessage.setText("Having a blast at StoryLand,\nwish you were here!\n" +
-                "Check it out on the web at https://www.storylandnh.com/");
-
         // logo and home button fragments
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -55,8 +51,7 @@ public class ShareActivity extends AppCompatActivity {
         ft.add(R.id.shareContainer, bf);
         ft.commit();
 
-        btnTo.setFocusableInTouchMode(true);
-        btnTo.requestFocus();
+        initActivity();
     }
 
     @Override
@@ -123,11 +118,6 @@ public class ShareActivity extends AppCompatActivity {
         }
     }
 
-    public void backButton(View v){
-        Intent back = new Intent(this, AboutActivity.class);
-        startActivity(back);
-    }
-
     public void toButton(View v){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
@@ -136,14 +126,18 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     public void sendButton(View v){
-        String subject = "A Message from StoryLand";
         EditText etTo = findViewById(R.id.etEmail);
         EditText etMessage = findViewById(R.id.etMessage);
 
-        String[] recipients = etTo.getText().toString().split(",");
-        String message = etMessage.getText().toString();
+        if(!etTo.getText().toString().isEmpty()) {
+            String subject = "A Message from StoryLand";
+            String[] recipients = etTo.getText().toString().split(",");
+            String message = etMessage.getText().toString();
 
-        sendEmail(recipients, subject, message, photoAttachment);
+            sendEmail(recipients, subject, message, photoAttachment);
+        } else {
+            Toast.makeText(this,"No recipient specified", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void addPhoto(View v){
@@ -247,5 +241,27 @@ public class ShareActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initActivity(){
+        String favRideLine = "Wish you were here!\n";
+
+        SharedPreferences appPrefs = getSharedPreferences ("appPrefs", MODE_PRIVATE);
+        String user = appPrefs.getString("username", "");
+
+        if(!user.isEmpty()) {
+            SharedPreferences prefs = getSharedPreferences(user, MODE_PRIVATE);
+            String favRide = prefs.getString("favRide", "");
+            if(!favRide.isEmpty()) {
+                favRideLine = favRide + " is my favorite ride!\n";
+            }
+        }
+
+        EditText etMessage = findViewById(R.id.etMessage);
+        etMessage.setText("Having a blast at StoryLand!\n" + favRideLine +
+                "Check it out on the web at https://www.storylandnh.com/");
+
+        Button btnTo = findViewById(R.id.btnTo);
+        btnTo.requestFocus();
     }
 }

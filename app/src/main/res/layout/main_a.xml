@@ -9,39 +9,41 @@
 
     <Button
         android:id="@+id/btnSurvey"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="77dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
         android:onClick="surveyPage"
         android:text="@string/ratingButton"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/loginButton"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.034" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="77dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="16dp"
         android:onClick="aboutPage"
         android:text="About"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/loginButton"
         app:layout_constraintTop_toTopOf="@+id/loginButton" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="77dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
         android:onClick="showLogin"
         android:text="Login"
-        app:layout_constraintEnd_toStartOf="@+id/btnAbout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnSurvey"
-        app:layout_constraintTop_toTopOf="@+id/btnSurvey" />
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/btnShare"
+        app:layout_constraintTop_toTopOf="@+id/btnShare" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -80,5 +82,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOrientation"
         app:layout_constraintVertical_bias="0.02" />
+
+    <Button
+        android:id="@+id/btnShare"
+        android:layout_width="77dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:onClick="shareButton"
+        android:text="@string/shareButton"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/btnSurvey"
+        app:layout_constraintTop_toTopOf="@+id/btnSurvey" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

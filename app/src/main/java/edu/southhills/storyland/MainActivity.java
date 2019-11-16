@@ -16,7 +16,6 @@ import android.view.animation.AnticipateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private Boolean firstRun = true;
@@ -227,6 +226,11 @@ public class MainActivity extends AppCompatActivity {
             tvUser.setText(user);
         }
         firstRun = false;
+    }
+
+    public void shareButton(View v){
+        Intent shareIntent = new Intent(this, ShareActivity.class);
+        startActivity(shareIntent);
     }
 
 }

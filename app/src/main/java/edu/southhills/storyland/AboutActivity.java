@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 public class AboutActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +54,6 @@ public class AboutActivity extends AppCompatActivity {
             Toast.makeText(this, "Map Client not Found", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    public void shareButton(View v){
-        Intent shareIntent = new Intent(this, ShareActivity.class);
-        startActivity(shareIntent);
     }
 
 }
